@@ -1,4 +1,4 @@
-utomates testing and linting inside Docker every time you push code
+#Automates testing and linting inside Docker every time you push code
 ---
 name: Checks
 on: [push]
