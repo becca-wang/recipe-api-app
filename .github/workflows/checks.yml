@@ -1,6 +1,6 @@
+utomates testing and linting inside Docker every time you push code
 ---
 name: Checks
- 
 on: [push]
  
 jobs:
@@ -16,6 +16,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Test
-        run: docker compose run --rm app sh -c "python manage.py test"
+        run: docker compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test"
       - name: Lint
         run: docker compose run --rm app sh -c "flake8"
