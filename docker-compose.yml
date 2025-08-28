@@ -5,20 +5,21 @@ services:
     build:
       # tells Docker to build the image from the Dockerfile in the current directory.
       context: .
-      # This sets a build argument (useful for things like development settings).  
+      # This sets a build argument (useful for things like development settings).
       args:
       - DEV=true
     # maps port 8000 on your machine to port 8000 in the container (useful for web servers like Django or Flask).
-    ports: 
+    ports:
       - "8000:8000"
     volumes:
       - ./app:/app
+      - dev-static-data:/vol/web
     # # overrides the default command and starts a Django development server that listens on all network interfaces
     command: >
       sh -c "python manage.py wait_for_db &&
              python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
-             
+
 
     environment:
       - DB_HOST=db
@@ -40,3 +41,4 @@ services:
 
 volumes:
   dev-db-data:
+  dev-static-data:
