@@ -7,7 +7,7 @@ from core.models import (
     Recipe,
     Tag,
     Ingredient,
-    )
+)
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -33,11 +33,11 @@ class RecipeSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, required=False)
     ingredients = IngredientSerializer(many=True, required=False)
 
-    class Meta: # A nested class that defines metadata for the serializer
+    class Meta:
         model = Recipe
         fields = [
             'id', 'title', 'time_minutes', 'price', 'link', 'tags',
-            'ingredients',
+            'ingredients','image'
         ]
         read_only_fields = ['id']
 
@@ -57,7 +57,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         for ingredient in ingredients:
             ingredient_obj, create = Ingredient.objects.get_or_create(
                 user=auth_user,
-                **ingredient,  #Unpacks the dictionary containing ingredient details
+                **ingredient,
             )
             recipe.ingredients.add(ingredient_obj)
 
@@ -90,7 +90,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         return instance
 
 
-class RecipeDetailSerializer(RecipeSerializer): #extension of RecipeSerializer
+class RecipeDetailSerializer(RecipeSerializer):
     """Serializer for recipe detail view."""
 
     class Meta(RecipeSerializer.Meta):
@@ -104,4 +104,4 @@ class RecipeImageSerializer(serializers.ModelSerializer):
         model = Recipe
         fields = ['id', 'image']
         read_only_fields = ['id']
-        extra_kwargs = {'image': {'required':'True'}}
+        extra_kwargs = {'image': {'required': True}}
